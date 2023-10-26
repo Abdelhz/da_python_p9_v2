@@ -21,4 +21,18 @@ from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('register/', views.register, name='register'),
+    # User-related URLs
+    path('signup/', views.signup, name='signup'),
+    path('login/', auth_views.LoginView.as_view(template_name='registration/login.html'), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+
+    # Ticket-related URLs (assuming you'll implement these views)
+    path('tickets/add/', views.add_ticket, name='add_ticket'),
+    path('tickets/<int:ticket_id>/', views.view_ticket, name='view_ticket'),
+
+    # Review-related URLs
+    path('reviews/add/', views.add_review, name='add_review'),
+    path('reviews/<int:review_id>/', views.view_review, name='view_review'),
+    
+    # Other URLs for your app can be added here as needed
 ]

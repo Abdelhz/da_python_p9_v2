@@ -4,7 +4,12 @@ from django.db import models
 
 
 class Ticket(models.Model):
-    # Your Ticket model definition goes here
+    title = models.CharField(max_length=255)
+    author = models.CharField(max_length=255)
+    description = models.TextField(blank=True, null=True)
+    cover = models.ImageField(upload_to='covers/', blank=True, null=True)
+    user = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    time_created = models.DateTimeField(auto_now_add=True)
     pass
 
 
