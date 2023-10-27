@@ -13,10 +13,10 @@ from .models import Ticket, Review
 from .forms import TicketForm, ReviewForm
 
 def feed(request):
-    eviews = get_users_viewable_reviews(request.user)
+    review = get_users_viewable_reviews(request.user)
     # returns queryset of reviews
     #reviews = reviews.annotate(content_type=Value('REVIEW', CharField()))
-    reviews = eviews.annotate(content_type=Value('REVIEW', CharField()))
+    reviews = review.annotate(content_type=Value('REVIEW', CharField()))
     tickets = get_users_viewable_tickets(request.user)
     # returns queryset of tickets
     tickets = tickets.annotate(content_type=Value('TICKET', CharField()))
