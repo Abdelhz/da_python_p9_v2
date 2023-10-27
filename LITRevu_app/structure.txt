@@ -1,0 +1,39 @@
+my_django_project/
+│
+├── manage.py
+│
+├── my_django_project/
+│   ├── __init__.py
+│   ├── settings.py   # Ensure 'AUTH_USER_MODEL' is set correctly here, if using a custom model
+│   ├── urls.py       # Include authentication views (e.g., login, logout) here
+│   └── wsgi.py
+│
+├── myapp/            # This is the app containing your models and related functionality
+│   ├── __init__.py
+│   ├── admin.py      # Register your models here for the Django admin
+│   ├── apps.py
+│   ├── migrations/
+│   ├── models.py     # Your models (Ticket, Review, UserFollows) are defined here
+│   ├── tests.py
+│   ├── views.py      # Views for your app functionality
+│   └── urls.py       # URLs for your app functionality
+│
+├── templates/        # You can organize HTML templates here
+│   ├── registration/ 
+│   │   ├── login.html   # Template for the login page
+│   │   └── ...          # Other authentication related templates
+│   ├── myapp/
+│   │   ├── signup.html  # Template for user signup
+│   │   └── ...          # Other templates specific to your app
+│   └── base.html        # A base template, if you're using one
+│
+├── static/           # Static files such as CSS and JS
+│   ├── css/
+│   │   ├── styles.css  # General styles for your site
+│   │   └── ...
+│   ├── js/
+│   │   ├── scripts.js  # General JavaScript for your site
+│   │   └── ...
+│   └── ...
+│
+└── ... 

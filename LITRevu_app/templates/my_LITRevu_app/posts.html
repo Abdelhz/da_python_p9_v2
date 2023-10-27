@@ -1,0 +1,15 @@
+<h1>My Posts</h1>
+
+<h2>Tickets</h2>
+<ul>
+  {% for ticket in tickets %}
+    <li>{{ ticket.title }} - {{ ticket.description }}</li>
+  {% endfor %}
+</ul>
+
+<h2>Reviews</h2>
+<ul>
+  {% for review in reviews %}
+    <li>{{ review.headline }} - {{ review.body }} - Rating: {{ review.rating }}</li>
+  {% endfor %}
+</ul>

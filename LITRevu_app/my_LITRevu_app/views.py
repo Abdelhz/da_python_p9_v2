@@ -1,9 +1,10 @@
 from itertools import chain
-
+from django.contrib.auth import login
+from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from django.db.models import CharField, Value
 from django.shortcuts import render, redirect
-
+from .models import Ticket, Review
 
 def feed(request):
     eviews = get_users_viewable_reviews(request.user)
@@ -20,29 +21,21 @@ def feed(request):
         reverse=True
         )
     
-    return render(request, 'feed.html', context={'posts': posts})
+    return render(request, 'my_LITRevu_app/feed.html', context={'posts': posts})
 
 
 def register(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('login')  # Redirect to login after successful registration
+            user = form.save()
+            login(request, user)
+            messages.success(request, 'Registration successful.')
+            return redirect('home')  # Redirect to home or any other page
     else:
         form = UserCreationForm()
     return render(request, 'registration/register.html', {'form': form})
 
-
-def signup(request):
-    if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('login')  # Redirect to login page after successful signup
-    else:
-        form = UserCreationForm()
-    return render(request, 'registration/signup.html', {'form': form})
 
 
 @login_required
@@ -88,7 +81,7 @@ def view_review(request, review_id):
 
 
 @login_required
-def add_review(request, ticket_id):
+def add_review_to_ticket(request, ticket_id):
     # Trying news add_review function
     ticket = get_object_or_404(Ticket, id=ticket_id)
     if request.method == 'POST':
@@ -101,5 +94,32 @@ def add_review(request, ticket_id):
             return redirect('some_view')  # Redirect to a relevant view
     else:
         form = ReviewForm()
-    return render(request, 'add_review.html', {'form': form})
+    return render(request, 'reviews/add_review_to_ticket.html', {'form': form})
 
+
+@login_required
+def posts(request):
+    user = request.user
+    tickets = Ticket.objects.filter(user=user)
+    reviews = Review.objects.filter(user=user)
+    return render(request, 'my_LITRevu_app/posts.html', {'tickets': tickets, 'reviews': reviews})
+
+
+@method_decorator(login_required, name='dispatch')
+class EditTicketView(UpdateView):
+    model = Ticket
+    fields = ['title', 'description']  # list all the fields that you want to be editable
+    template_name = 'edit_ticket.html'
+    
+    def get_success_url(self):
+        return reverse_lazy('some_view_name', args=[self.object.id])
+
+
+@method_decorator(login_required, name='dispatch')
+class EditReviewView(UpdateView):
+    model = Review
+    fields = ['headline', 'body', 'rating']  # list all the fields that you want to be editable
+    template_name = 'edit_review.html'
+    
+    def get_success_url(self):
+        return reverse_lazy('some_view_name', args=[self.object.id])
