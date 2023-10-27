@@ -35,9 +35,4 @@ class UserFollows(models.Model):
         # for unique user-user_followed pairs
         unique_together = ('user', 'followed_user', )
 
-class Subsciptions(models.Model):
-    pass
-
-class Posts(models.Model):
-    pass
 

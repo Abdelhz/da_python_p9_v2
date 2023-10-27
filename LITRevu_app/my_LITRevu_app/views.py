@@ -1,15 +1,22 @@
 from itertools import chain
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from django.shortcuts import get_object_or_404
+from django.views.generic.edit import UpdateView
+from django.urls import reverse_lazy
 from django.contrib.auth import login
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from django.db.models import CharField, Value
 from django.shortcuts import render, redirect
 from .models import Ticket, Review
+from .forms import TicketForm, ReviewForm
 
 def feed(request):
     eviews = get_users_viewable_reviews(request.user)
     # returns queryset of reviews
-    reviews = reviews.annotate(content_type=Value('REVIEW', CharField()))
+    #reviews = reviews.annotate(content_type=Value('REVIEW', CharField()))
+    reviews = eviews.annotate(content_type=Value('REVIEW', CharField()))
     tickets = get_users_viewable_tickets(request.user)
     # returns queryset of tickets
     tickets = tickets.annotate(content_type=Value('TICKET', CharField()))
@@ -112,7 +119,7 @@ class EditTicketView(UpdateView):
     template_name = 'edit_ticket.html'
     
     def get_success_url(self):
-        return reverse_lazy('some_view_name', args=[self.object.id])
+        return reverse_lazy('tickets/ticket_edit.html', args=[self.object.id])
 
 
 @method_decorator(login_required, name='dispatch')
@@ -122,4 +129,4 @@ class EditReviewView(UpdateView):
     template_name = 'edit_review.html'
     
     def get_success_url(self):
-        return reverse_lazy('some_view_name', args=[self.object.id])
+        return reverse_lazy('reviews/review_edit.html', args=[self.object.id])
