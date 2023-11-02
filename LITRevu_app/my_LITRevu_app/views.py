@@ -9,7 +9,7 @@ from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from django.db.models import CharField, Value
 from django.shortcuts import render, redirect
-from .models import Ticket, Review
+from .models import Ticket, Review, UserFollows
 from .forms import TicketForm, ReviewForm
 
 def feed(request):
@@ -57,13 +57,13 @@ def add_ticket(request):
             return redirect('some_view')  # Redirect to some view after successful ticket addition
     else:
         form = TicketForm()
-    return render(request, 'tickets/add_ticket.html', {'form': form})
+    return render(request, 'my_LITRevu_app/tickets/add_ticket.html', {'form': form})
 
 
 @login_required
 def view_ticket(request, ticket_id):
     ticket = get_object_or_404(Ticket, id=ticket_id)
-    return render(request, 'tickets/view_ticket.html', {'ticket': ticket})
+    return render(request, 'my_LITRevu_app/tickets/view_ticket.html', {'ticket': ticket})
 
 
 @login_required
@@ -78,13 +78,13 @@ def add_review(request):
             return redirect('some_view')  # Redirect to some view after successful review addition
     else:
         form = ReviewForm()
-    return render(request, 'reviews/add_review.html', {'form': form})
+    return render(request, 'my_LITRevu_app/reviews/add_review.html', {'form': form})
 
 
 @login_required
 def view_review(request, review_id):
     review = get_object_or_404(Review, id=review_id)
-    return render(request, 'reviews/view_review.html', {'review': review})
+    return render(request, 'my_LITRevu_app/reviews/view_review.html', {'review': review})
 
 
 @login_required
@@ -101,7 +101,7 @@ def add_review_to_ticket(request, ticket_id):
             return redirect('some_view')  # Redirect to a relevant view
     else:
         form = ReviewForm()
-    return render(request, 'reviews/add_review_to_ticket.html', {'form': form})
+    return render(request, 'my_LITRevu_app/reviews/add_review_to_ticket.html', {'form': form})
 
 
 @login_required
@@ -119,7 +119,7 @@ class EditTicketView(UpdateView):
     template_name = 'edit_ticket.html'
     
     def get_success_url(self):
-        return reverse_lazy('tickets/ticket_edit.html', args=[self.object.id])
+        return reverse_lazy('my_LITRevu_app/tickets/ticket_edit.html', args=[self.object.id])
 
 
 @method_decorator(login_required, name='dispatch')
@@ -129,4 +129,13 @@ class EditReviewView(UpdateView):
     template_name = 'edit_review.html'
     
     def get_success_url(self):
-        return reverse_lazy('reviews/review_edit.html', args=[self.object.id])
+        return reverse_lazy('my_LITRevu_app/reviews/review_edit.html', args=[self.object.id])
+
+
+@login_required
+def subscriptions(request):
+    # Get the current user's following list
+    following = UserFollows.objects.filter(user=request.user).select_related('followed_user')
+    following_list = [user_follow.followed_user for user_follow in following]
+    
+    return render(request, 'my_LITRevu_app/subscriptions.html', {'following_list': following_list})
