@@ -1,14 +1,14 @@
-my_django_project/
+LITRevu_app/
 │
 ├── manage.py
 │
-├── my_django_project/
+├── LITRevu_app/
 │   ├── __init__.py
 │   ├── settings.py   # Ensure 'AUTH_USER_MODEL' is set correctly here, if using a custom model
 │   ├── urls.py       # Include authentication views (e.g., login, logout) here
 │   └── wsgi.py
 │
-├── myapp/            # This is the app containing your models and related functionality
+├── my_LITRevu_app/            # This is the app containing your models and related functionality
 │   ├── __init__.py
 │   ├── admin.py      # Register your models here for the Django admin
 │   ├── apps.py
@@ -21,11 +21,25 @@ my_django_project/
 ├── templates/        # You can organize HTML templates here
 │   ├── registration/ 
 │   │   ├── login.html   # Template for the login page
-│   │   └── ...          # Other authentication related templates
-│   ├── myapp/
-│   │   ├── signup.html  # Template for user signup
-│   │   └── ...          # Other templates specific to your app
-│   └── base.html        # A base template, if you're using one
+│   │   └── register.html  # Template for user signups
+│   ├── my_LITRevu_app/
+│       │
+│       ├── feed.html  # Template for feed display
+│       ├── posts.html  # Template for posts display
+│       ├── subscriptions.html  # Template for UserFollows display
+│       │
+│       ├── reviews/
+│           ├── add_review_to_ticket.html # Template for adding a review to a ticket
+│           ├── add_review.html # Template for adding a review
+│           ├── review_edit.html # Template for editing a review
+            └── view_review.html # Template for displaying a review
+│       │
+│       └── tickets/
+│           ├── add_ticket.html # Template for adding a ticket
+│           ├── ticket_edit.html # Template for editing a ticket
+            └── view_ticket.html # Template for displaying a ticket
+    │
+│   └── base_generic.html        # A base template, if you're using one
 │
 ├── static/           # Static files such as CSS and JS
 │   ├── css/
