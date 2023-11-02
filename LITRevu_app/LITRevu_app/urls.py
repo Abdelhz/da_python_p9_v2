@@ -19,6 +19,8 @@ from django.urls import include, path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('LITRevu_app/', include('LITRevu_app.urls')),  # Include the URLs from the 'myapp' app
+    path('LITRevu_app/', include('my_LITRevu_app.urls')),  # Include the URLs from the 'myapp' app
     # ... you can include URLs from other apps as well
+    
+
 ]

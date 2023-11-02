@@ -23,7 +23,7 @@ urlpatterns = [
     # User-related URLs
     path('register/', views.register, name='register'),
     path('login/', LoginView.as_view(template_name='registration/login.html'), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('logout/', LogoutView.as_view(), name='logout'),
 
     # Ticket-related URLs (assuming you'll implement these views)
     path('add_ticket/', views.add_ticket, name='add_ticket'),
