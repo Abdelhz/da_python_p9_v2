@@ -26,14 +26,14 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
 
     # Ticket-related URLs (assuming you'll implement these views)
-    path('tickets/add/', views.add_ticket, name='add_ticket'),
+    path('add_ticket/', views.add_ticket, name='add_ticket'),
     path('tickets/<int:ticket_id>/', views.view_ticket, name='view_ticket'),
-    path('tickets/edit/<int:pk>/', views.EditTicketView.as_view(), name='edit_ticket'),
+    path('tickets_edit/<int:pk>/', views.EditTicketView.as_view(), name='edit_ticket'),
 
     # Review-related URLs
-    path('reviews/add/', views.add_review, name='add_review'),
+    path('add_review/', views.add_review, name='add_review'),
     path('reviews/<int:review_id>/', views.view_review, name='view_review'),
-    path('reviews/edit/<int:pk>/', views.EditReviewView.as_view(), name='edit_review'),
+    path('reviews_edit/<int:pk>/', views.EditReviewView.as_view(), name='edit_review'),
 
     # general_info_displayer URLs
     path('posts/', views.posts, name='posts'),
