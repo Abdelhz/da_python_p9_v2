@@ -1,0 +1,11 @@
+<!-- subscriptions.html -->
+{% extends 'base_generic.html' %}
+
+{% block content %}
+  <h1>Following</h1>
+  <ul>
+    {% for user in following_list %}
+      <li>{{ user.username }}</li>
+    {% endfor %}
+  </ul>
+{% endblock %}
