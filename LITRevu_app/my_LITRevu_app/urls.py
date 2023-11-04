@@ -25,6 +25,10 @@ urlpatterns = [
     path('login/', LoginView.as_view(template_name='registration/login.html'), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
 
+    #User-related Actions URLs
+    path('follow/<int:user_id>/', views.follow_user, name='follow_user'),
+    path('unfollow/<int:user_id>/', views.unfollow_user, name='unfollow_user'),
+
     # Ticket-related URLs (assuming you'll implement these views)
     path('add_ticket/', views.add_ticket, name='add_ticket'),
     path('tickets/<int:ticket_id>/', views.view_ticket, name='view_ticket'),

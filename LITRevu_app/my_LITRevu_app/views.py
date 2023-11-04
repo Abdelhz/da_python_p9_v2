@@ -1,9 +1,11 @@
 from itertools import chain
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.contrib.auth import get_user_model
+from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.views.generic.edit import UpdateView
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.contrib.auth import login
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
@@ -15,7 +17,6 @@ from .forms import TicketForm, ReviewForm
 def feed(request):
     review = get_users_viewable_reviews(request.user)
     # returns queryset of reviews
-    #reviews = reviews.annotate(content_type=Value('REVIEW', CharField()))
     reviews = review.annotate(content_type=Value('REVIEW', CharField()))
     tickets = get_users_viewable_tickets(request.user)
     # returns queryset of tickets
@@ -139,3 +140,25 @@ def subscriptions(request):
     following_list = [user_follow.followed_user for user_follow in following]
     
     return render(request, 'my_LITRevu_app/subscriptions.html', {'following_list': following_list})
+
+@login_required
+def follow_user(request, user_id):
+    User = get_user_model()
+    if request.method == "POST":
+        user_to_follow = get_object_or_404(User, id=user_id)
+        # Check if the user already follows the other user
+        _, created = UserFollows.objects.get_or_create(user=request.user, followed_user=user_to_follow)
+        if created:
+            messages.success(request, "You are now following {}.".format(user_to_follow.username))
+        else:
+            messages.info(request, "You already follow {}.".format(user_to_follow.username))
+    return HttpResponseRedirect(reverse('subscriptions'))
+
+@login_required
+def unfollow_user(request, user_id):
+    User = get_user_model()
+    if request.method == "POST":
+        user_to_unfollow = get_object_or_404(User, id=user_id)
+        UserFollows.objects.filter(user=request.user, followed_user=user_to_unfollow).delete()
+        messages.success(request, "You have unfollowed {}.".format(user_to_unfollow.username))
+    return HttpResponseRedirect(reverse('subscriptions'))

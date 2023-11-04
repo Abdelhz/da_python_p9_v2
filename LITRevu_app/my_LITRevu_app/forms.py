@@ -4,7 +4,7 @@ from .models import Ticket, Review
 class TicketForm(forms.ModelForm):
     class Meta:
         model = Ticket
-        fields = ['title', 'description', 'cover']
+        fields = ['title', 'description', 'image']
         widgets = {
             'description': forms.Textarea(attrs={'cols': 80, 'rows': 20}),
         }
@@ -12,7 +12,7 @@ class TicketForm(forms.ModelForm):
             'title': 'Enter the title of your ticket.',
         }
         labels = {
-            'cover': 'Upload a cover image (optional)',
+            'image': 'Upload a cover image (optional)',
         }
 
 class ReviewForm(forms.ModelForm):
