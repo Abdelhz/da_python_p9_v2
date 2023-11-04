@@ -5,7 +5,15 @@
   <h1>Following</h1>
   <ul>
     {% for user in following_list %}
-      <li>{{ user.username }}</li>
+      <div>
+        {{ user.username }}
+        <form action="{% url 'unfollow_user' user.id %}" method="post">
+          {% csrf_token %}
+          <button type="submit">Unfollow</button>
+        </form>
+      </div>
     {% endfor %}
   </ul>
 {% endblock %}
+
+
