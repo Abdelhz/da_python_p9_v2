@@ -1,24 +1,29 @@
 LITRevu_app/
 │
 ├── manage.py
+├── db.sqlite3
 │
 ├── LITRevu_app/
+│   ├── __pycache__/
 │   ├── __init__.py
+│   ├── asgi.py
 │   ├── settings.py   # Ensure 'AUTH_USER_MODEL' is set correctly here, if using a custom model
 │   ├── urls.py       # Include authentication views (e.g., login, logout) here
 │   └── wsgi.py
 │
 ├── my_LITRevu_app/            # This is the app containing your models and related functionality
+│   ├── __pycache__/
+│   ├── migrations/
 │   ├── __init__.py
+│   ├── forms.py
 │   ├── admin.py      # Register your models here for the Django admin
 │   ├── apps.py
-│   ├── migrations/
 │   ├── models.py     # Your models (Ticket, Review, UserFollows) are defined here
 │   ├── tests.py
 │   ├── views.py      # Views for your app functionality
 │   └── urls.py       # URLs for your app functionality
 │
-├── templates/        # You can organize HTML templates here
+├── templates/        # organizes HTML templates here
 │   ├── registration/ 
 │   │   ├── login.html   # Template for the login page
 │   │   └── register.html  # Template for user signups
