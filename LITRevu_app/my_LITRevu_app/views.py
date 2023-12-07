@@ -1,21 +1,30 @@
 from itertools import chain
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, login, authenticate, logout
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.views.generic.edit import UpdateView
 from django.urls import reverse_lazy, reverse
-from django.contrib.auth import login
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from django.db.models import CharField, Value
 from django.shortcuts import render, redirect
 from .models import Ticket, Review, UserFollows
-from .forms import TicketForm, ReviewForm
+from .forms import TicketForm, ReviewForm, LoginForm
 
 def feed(request):
-    review = get_users_viewable_reviews(request.user)
+    def get_users_viewable_reviews(user):
+        # Get reviews from users that the current user is following
+        following_users = UserFollows.objects.filter(user=user).values('followed_user')
+        return Review.objects.filter(user__in=following_users)
+
+    def get_users_viewable_tickets(user):
+        # Get tickets from users that the current user is following
+        following_users = UserFollows.objects.filter(user=user).values('followed_user')
+        return Ticket.objects.filter(user__in=following_users)
+
+    reviews = get_users_viewable_reviews(request.user)
     # returns queryset of reviews
     reviews = review.annotate(content_type=Value('REVIEW', CharField()))
     tickets = get_users_viewable_tickets(request.user)
@@ -31,6 +40,29 @@ def feed(request):
     
     return render(request, 'my_LITRevu_app/feed.html', context={'posts': posts})
 
+def login_page(request):
+    form = LoginForm()
+    message = ""
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            user = authenticate(
+            username=form.cleaned_data['username'],
+            password=form.cleaned_data['password'],
+            )
+            if user is not None:
+                login(request, user)
+                message = f"Bonjour, {user.username}! Vous êtes connecté"
+                return redirect('feed')  # Redirect to home or any other page
+            else:
+                message = "Identifiants invalides"
+    return render(request, 'registration/login.html', context={'form': form, 'message': message})
+
+@login_required
+def logout_user(request):
+    
+    logout(request)
+    return redirect('login')
 
 def register(request):
     if request.method == 'POST':
@@ -39,10 +71,11 @@ def register(request):
             user = form.save()
             login(request, user)
             messages.success(request, 'Registration successful.')
-            return redirect('home')  # Redirect to home or any other page
+            return redirect('feed')  # Redirect to home or any other page
     else:
         form = UserCreationForm()
     return render(request, 'registration/register.html', {'form': form})
+
 
 
 
@@ -55,7 +88,7 @@ def add_ticket(request):
             ticket = form.save(commit=False)
             ticket.user = request.user
             ticket.save()
-            return redirect('some_view')  # Redirect to some view after successful ticket addition
+            return redirect('posts')  # Redirect to some view after successful ticket addition
     else:
         form = TicketForm()
     return render(request, 'my_LITRevu_app/tickets/add_ticket.html', {'form': form})
@@ -76,7 +109,7 @@ def add_review(request):
             review = form.save(commit=False)
             review.user = request.user
             review.save()
-            return redirect('some_view')  # Redirect to some view after successful review addition
+            return redirect('posts')  # Redirect to some view after successful review addition
     else:
         form = ReviewForm()
     return render(request, 'my_LITRevu_app/reviews/add_review.html', {'form': form})
@@ -99,7 +132,7 @@ def add_review_to_ticket(request, ticket_id):
             review.user = request.user
             review.ticket = ticket
             review.save()
-            return redirect('some_view')  # Redirect to a relevant view
+            return redirect('posts')  # Redirect to a relevant view
     else:
         form = ReviewForm()
     return render(request, 'my_LITRevu_app/reviews/add_review_to_ticket.html', {'form': form})
@@ -117,7 +150,7 @@ def posts(request):
 class EditTicketView(UpdateView):
     model = Ticket
     fields = ['title', 'description']  # list all the fields that you want to be editable
-    template_name = 'edit_ticket.html'
+    template_name = 'ticket_edit.html'
     
     def get_success_url(self):
         return reverse_lazy('my_LITRevu_app/tickets/ticket_edit.html', args=[self.object.id])
@@ -127,7 +160,7 @@ class EditTicketView(UpdateView):
 class EditReviewView(UpdateView):
     model = Review
     fields = ['headline', 'body', 'rating']  # list all the fields that you want to be editable
-    template_name = 'edit_review.html'
+    template_name = 'review_edit.html'
     
     def get_success_url(self):
         return reverse_lazy('my_LITRevu_app/reviews/review_edit.html', args=[self.object.id])
@@ -147,7 +180,7 @@ def follow_user(request, user_id):
     if request.method == "POST":
         user_to_follow = get_object_or_404(User, id=user_id)
         # Check if the user already follows the other user
-        _, created = UserFollows.objects.get_or_create(user=request.user, followed_user=user_to_follow)
+        followed_user, created = UserFollows.objects.get_or_create(user=request.user, followed_user=user_to_follow)
         if created:
             messages.success(request, "You are now following {}.".format(user_to_follow.username))
         else:
@@ -162,3 +195,4 @@ def unfollow_user(request, user_id):
         UserFollows.objects.filter(user=request.user, followed_user=user_to_unfollow).delete()
         messages.success(request, "You have unfollowed {}.".format(user_to_unfollow.username))
     return HttpResponseRedirect(reverse('subscriptions'))
+
