@@ -22,8 +22,9 @@ urlpatterns = [
  
     # User-related URLs
     path('register/', views.register, name='register'),
-    path('login/', LoginView.as_view(template_name='registration/login.html'), name='login'),
-    path('logout/', LogoutView.as_view(), name='logout'),
+    #path('login/', LoginView.as_view(template_name='registration/login.html'), name='login'),
+    path('login/', views.login_page, name='login'),
+    path('logout/', views.logout_user, name='logout'),
 
     #User-related Actions URLs
     path('follow/<int:user_id>/', views.follow_user, name='follow_user'),
@@ -32,17 +33,19 @@ urlpatterns = [
     # Ticket-related URLs (assuming you'll implement these views)
     path('add_ticket/', views.add_ticket, name='add_ticket'),
     path('tickets/<int:ticket_id>/', views.view_ticket, name='view_ticket'),
-    path('tickets_edit/<int:pk>/', views.EditTicketView.as_view(), name='edit_ticket'),
+    path('ticket_edit/<int:pk>/', views.EditTicketView.as_view(), name='edit_ticket'),
 
     # Review-related URLs
     path('add_review/', views.add_review, name='add_review'),
     path('reviews/<int:review_id>/', views.view_review, name='view_review'),
-    path('reviews_edit/<int:pk>/', views.EditReviewView.as_view(), name='edit_review'),
+    path('review_edit/<int:pk>/', views.EditReviewView.as_view(), name='edit_review'),
 
     # general_info_displayer URLs
     path('posts/', views.posts, name='posts'),
     path('feed/', views.feed, name='feed'),
+    path('subscriptions/', views.subscriptions, name='subscriptions'),
     
     # Other URLs for your app can be added here as needed
+
     
 ]
