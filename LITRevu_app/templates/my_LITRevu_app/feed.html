@@ -1,6 +1,16 @@
-{% for post in posts %}
-    {% if post.content_type == 'TICKET' %}
-        {% include 'ticket_snippet.html' %}
-    {% elif post.content_type == 'REVIEW' %}
-        {% include 'review_snippet.html' %}
-{% endfor %}
+{% extends 'base_generic.html'%}
+
+{% block title%}Feed{% endblock%}
+
+{% block content%}
+<h1>My Feed</h1>
+
+<p>
+    {% for post in posts%}
+        {% if post.content_type == 'TICKET'%}
+            {% include 'ticket_snippet.html'%}
+        {% elif post.content_type == 'REVIEW'%}
+            {% include 'review_snippet.html'%}
+    {% endfor%}
+</p>
+{% endblock%}
