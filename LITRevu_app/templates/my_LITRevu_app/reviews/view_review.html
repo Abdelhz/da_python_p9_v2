@@ -2,9 +2,10 @@
 {% extends 'base_generic.html' %}
 
 {% block content %}
-
-
-
-
-
+  <h1>View Review</h1>
+  <h2>Title: {{ review.headline }}</h2>
+  <p>Body: {{ review.body }}</p>
+  <p>Rating: {{ review.rating }}</p>
+  <p>Author: {{ review.user.username }}</p>
+  <p>Created on: {{ review.time_created }}</p>
 {% endblock %}

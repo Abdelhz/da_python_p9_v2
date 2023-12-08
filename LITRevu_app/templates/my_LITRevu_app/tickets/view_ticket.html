@@ -2,9 +2,13 @@
 {% extends 'base_generic.html' %}
 
 {% block content %}
-
-
-
-
-
+  <h1>View Ticket</h1>
+  <h2>Title: {{ ticket.title }}</h2>
+  <p>Description: {{ ticket.description }}</p>
+  {% if ticket.image %}
+    <img src="{{ ticket.image.url }}" alt="{{ ticket.title }} Image">
+  {% endif %}
+  <p>Author: {{ ticket.user.username }}</p>
+  <p>Created on: {{ ticket.time_created }}</p>
+  <!-- Add other details as needed -->
 {% endblock %}

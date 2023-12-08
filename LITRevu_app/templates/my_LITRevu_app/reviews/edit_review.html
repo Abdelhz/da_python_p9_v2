@@ -1,8 +1,9 @@
-<!-- ticket_edit.html -->
+<!-- review_edit.html -->
 {% extends 'base_generic.html' %}
 
 {% block content %}
-<form method="post" action="">
+  <h1>Edit Review</h1>
+  <form method="post" action="">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Save changes</button>

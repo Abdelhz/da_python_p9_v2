@@ -33,12 +33,12 @@ urlpatterns = [
     # Ticket-related URLs (assuming you'll implement these views)
     path('add_ticket/', views.add_ticket, name='add_ticket'),
     path('tickets/<int:ticket_id>/', views.view_ticket, name='view_ticket'),
-    path('ticket_edit/<int:pk>/', views.EditTicketView.as_view(), name='edit_ticket'),
+    path('edit_ticket/<int:pk>/', views.EditTicketView.as_view(), name='edit_ticket'),
 
     # Review-related URLs
     path('add_review/', views.add_review, name='add_review'),
     path('reviews/<int:review_id>/', views.view_review, name='view_review'),
-    path('review_edit/<int:pk>/', views.EditReviewView.as_view(), name='edit_review'),
+    path('edit_review/<int:pk>/', views.EditReviewView.as_view(), name='edit_review'),
 
     # general_info_displayer URLs
     path('posts/', views.posts, name='posts'),
