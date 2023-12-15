@@ -2,7 +2,7 @@ from itertools import chain
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.contrib.auth import get_user_model, login, authenticate, logout
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponseForbidden
 from django.shortcuts import get_object_or_404
 from django.views.generic.edit import UpdateView
 from django.urls import reverse_lazy, reverse
@@ -99,15 +99,32 @@ def view_ticket(request, ticket_id):
     ticket = get_object_or_404(Ticket, id=ticket_id)
     return render(request, 'my_LITRevu_app/tickets/view_ticket.html', {'ticket': ticket})
 
+def delete_ticket(request, ticket_id):
+    ticket = get_object_or_404(Ticket, id=ticket_id)
+    if request.user == ticket.user:
+        ticket.delete()
+        return redirect('posts')  # Redirect to a relevant view
+    else:
+        return HttpResponseForbidden("You are not authorized to delete this review.")
 
 @login_required
 def add_review(request):
     if request.method == 'POST':
         # You need to define a form for adding reviews
         form = ReviewForm(request.POST)
+        if request.method == 'POST':
+        # You need to define a form for adding tickets
+            form_ticket = TicketForm(request.POST)
+            if form.is_valid():
+                ticket = form_ticket.save(commit=False)
+                ticket.user = request.user
+                ticket.save()
+        else:
+            form = TicketForm()
         if form.is_valid():
             review = form.save(commit=False)
             review.user = request.user
+            review.ticket = ticket
             review.save()
             return redirect('posts')  # Redirect to some view after successful review addition
     else:
@@ -137,6 +154,17 @@ def add_review_to_ticket(request, ticket_id):
         form = ReviewForm()
     return render(request, 'my_LITRevu_app/reviews/add_review_to_ticket.html', {'form': form})
 
+
+def delete_review(request, review_id):
+    review = get_object_or_404(Review, id=review_id)
+
+    # Check if the authenticated user is the author of the review
+    if request.user == review.user:
+        review.delete()
+        return redirect('posts')  # Redirect to a relevant view
+    
+    else:
+        return HttpResponseForbidden("You are not authorized to delete this review.")
 
 @login_required
 def posts(request):

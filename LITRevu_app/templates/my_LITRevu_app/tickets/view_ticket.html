@@ -11,4 +11,9 @@
   <p>Author: {{ ticket.user.username }}</p>
   <p>Created on: {{ ticket.time_created }}</p>
   <!-- Add other details as needed -->
+   <!-- Add delete button -->
+  <form method="post" action="{% url 'delete_ticket' ticket.id %}">
+    {% csrf_token %}
+    <button type="submit">Delete</button>
+  </form>
 {% endblock %}
