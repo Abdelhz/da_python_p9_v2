@@ -15,6 +15,8 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib.auth.views import LoginView, LogoutView
 from . import views
 
@@ -25,18 +27,23 @@ urlpatterns = [
     #path('login/', LoginView.as_view(template_name='registration/login.html'), name='login'),
     path('login/', views.login_page, name='login'),
     path('logout/', views.logout_user, name='logout'),
+    path('profile/', views.profile, name='profile'),
 
     #User-related Actions URLs
     path('follow/<int:user_id>/', views.follow_user, name='follow_user'),
     path('unfollow/<int:user_id>/', views.unfollow_user, name='unfollow_user'),
+    path('block/<int:user_id>/', views.block_user, name='block_user'),
+    path('unblock/<int:user_id>/', views.unblock_user, name='unblock_user'),
 
     # Ticket-related URLs (assuming you'll implement these views)
     path('add_ticket/', views.add_ticket, name='add_ticket'),
     path('tickets/<int:ticket_id>/', views.view_ticket, name='view_ticket'),
     path('edit_ticket/<int:pk>/', views.EditTicketView.as_view(), name='edit_ticket'),
     path('delete_ticket/<int:ticket_id>/', views.delete_ticket, name='delete_ticket'),
+    
     # Review-related URLs
     path('add_review/', views.add_review, name='add_review'),
+    path('add_review_to_ticket/<int:ticket_id>/', views.add_review_to_ticket, name='add_review_to_ticket'),
     path('reviews/<int:review_id>/', views.view_review, name='view_review'),
     path('edit_review/<int:pk>/', views.EditReviewView.as_view(), name='edit_review'),
     path('delete_review/<int:review_id>/', views.delete_review, name='delete_review'),
@@ -45,8 +52,7 @@ urlpatterns = [
     path('posts/', views.posts, name='posts'),
     path('feed/', views.feed, name='feed'),
     path('subscriptions/', views.subscriptions, name='subscriptions'),
-    
+    path('search_user/', views.search_user, name='search_user'),
     # Other URLs for your app can be added here as needed
 
-    
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

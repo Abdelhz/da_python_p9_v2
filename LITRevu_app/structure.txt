@@ -37,12 +37,14 @@ LITRevu_app/
 │           ├── add_review_to_ticket.html # Template for adding a review to a ticket
 │           ├── add_review.html # Template for adding a review
 │           ├── review_edit.html # Template for editing a review
-            └── view_review.html # Template for displaying a review
+            ├── view_review.html # Template for displaying a review
+            └── review_snippet.html
 │       │
 │       └── tickets/
 │           ├── add_ticket.html # Template for adding a ticket
 │           ├── ticket_edit.html # Template for editing a ticket
-            └── view_ticket.html # Template for displaying a ticket
+            ├── view_ticket.html # Template for displaying a ticket
+            └── ticket_snippet.html
     │
 │   └── base_generic.html        # A base template, if you're using one
 │

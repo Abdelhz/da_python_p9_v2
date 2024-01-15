@@ -48,3 +48,19 @@ footer {
     padding: 10px 0;
     background-color: #f8f8f8;
 }
+
+.ticket-link {
+    text-decoration: none;
+}
+
+.ticket-link .ticket-title {
+    text-decoration: underline;
+}
+
+.review-link {
+    text-decoration: none;
+}
+
+.review-link .review-headline {
+    text-decoration: underline;
+}

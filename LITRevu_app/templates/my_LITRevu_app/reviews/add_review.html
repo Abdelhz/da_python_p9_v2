@@ -5,7 +5,8 @@
   <h1>Add Review</h1>
   <form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Add Review</button>
+    {{ form_ticket.as_p }}
+    {{ form_review.as_p }}
+    <button type="submit">Save Review</button>
   </form>
 {% endblock %}

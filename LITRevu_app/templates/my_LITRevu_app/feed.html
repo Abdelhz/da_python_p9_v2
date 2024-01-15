@@ -3,14 +3,59 @@
 {% block title%}Feed{% endblock%}
 
 {% block content%}
-<h1>My Feed</h1>
+<div style="margin-top: 10px;">
+    <h1 style="font-size: 2em; text-align: left;">My Feed</h1>
+</div>
 
-<p>
-    {% for post in posts%}
-        {% if post.content_type == 'TICKET'%}
-            {% include 'ticket_snippet.html'%}
-        {% elif post.content_type == 'REVIEW'%}
-            {% include 'review_snippet.html'%}
-    {% endfor%}
-</p>
-{% endblock%}
+<div style="display: flex; justify-content: center; gap: 20%;">
+    <a href="{% url 'add_ticket' %}" class="btn btn-primary">Create Ticket</a>
+    <a href="{% url 'add_review' %}" class="btn btn-primary">Create Review</a>
+</div>
+
+<div style="border: 1px solid black; margin-top: 20px; padding: 10px;">
+    <h2>My Tickets</h2>
+    {% for ticket in user_tickets %}
+        <div style="border: 1px solid grey; margin: 10px; padding: 10px;">
+            <a href="{% url 'view_ticket' ticket.id %}" class="ticket-link">
+                {% include 'my_LITRevu_app/tickets/ticket_snippet.html' %}
+            </a>
+        </div>
+    {% endfor %}
+</div>
+
+<div style="border: 1px solid black; margin-top: 20px; padding: 10px;">
+    <h2>My Reviews</h2>
+    {% for review in user_reviews %}
+        <div style="border: 1px solid grey; margin: 10px; padding: 10px;">
+            <a href="{% url 'view_review' review.id %}" class="review-link">
+                {% include 'my_LITRevu_app/reviews/review_snippet.html' %}
+            </a>
+        </div>
+    {% endfor %}
+</div>
+
+<div style="border: 1px solid black; margin-top: 20px; padding: 10px;">
+    <h2>Followed tickets</h2>
+    {% for ticket in tickets_followed %}
+        <div style="border: 1px solid grey; margin: 10px; padding: 10px;">
+            <a href="{% url 'view_ticket' ticket.id %}" class="ticket-link">
+                {% include 'my_LITRevu_app/tickets/ticket_snippet.html' %}
+            </a>
+            {% if not ticket.can_add_review %}
+                <a href="{% url 'add_review_to_ticket' ticket.id %}" class="btn btn-primary">Add Review</a>
+            {% endif %}
+        </div>
+    {% endfor %}
+</div>
+
+<div style="border: 1px solid black; margin-top: 20px; padding: 10px;">
+    <h2>Followed reviews and reviews to my tickets</h2>
+    {% for review in reviews_followed %}
+        <div style="border: 1px solid grey; margin: 10px; padding: 10px;">
+            <a href="{% url 'view_review' review.id %}" class="review-link">
+                {% include 'my_LITRevu_app/reviews/review_snippet.html' %}
+            </a>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

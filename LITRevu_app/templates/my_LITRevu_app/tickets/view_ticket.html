@@ -2,18 +2,74 @@
 {% extends 'base_generic.html' %}
 
 {% block content %}
+
+<!-- Section 1: The ticket -->
+<div style="border: 1px solid #000; margin: 10px; padding: 10px;">
+  
   <h1>View Ticket</h1>
-  <h2>Title: {{ ticket.title }}</h2>
-  <p>Description: {{ ticket.description }}</p>
-  {% if ticket.image %}
-    <img src="{{ ticket.image.url }}" alt="{{ ticket.title }} Image">
-  {% endif %}
-  <p>Author: {{ ticket.user.username }}</p>
-  <p>Created on: {{ ticket.time_created }}</p>
-  <!-- Add other details as needed -->
-   <!-- Add delete button -->
-  <form method="post" action="{% url 'delete_ticket' ticket.id %}">
-    {% csrf_token %}
-    <button type="submit">Delete</button>
-  </form>
+  <div style="border: 1px solid #333; margin: 10px 0; padding: 10px;">
+    <h2>Title: {{ ticket.title }}</h2>
+    <p>Description: {{ ticket.description }}</p>
+    {% if ticket.image %}
+      <div style="width: 15%; height: 15%; overflow: hidden;">
+        <img src="{{ ticket.image.url }}" alt="{{ ticket.title }}" style="max-width: 100%;">
+      </div>
+    {% endif %}
+    <p>Author: {{ ticket.user.username }}</p>
+    <p>Created on: {{ ticket.time_created }}</p>
+    <!-- Add other details as needed -->
+    
+    {% if user.is_authenticated and user == ticket.user %}
+      <!-- Add an edit button if the authenticated user is the author of the ticket -->
+      <form method="get" action="{% url 'edit_ticket' ticket.id %}">
+        <button type="submit">Edit</button>
+      </form>
+      <!-- Add a delete button if the authenticated user is the author of the ticket -->
+      <form method="post" action="{% url 'delete_ticket' ticket.id %}">
+        {% csrf_token %}
+        <button type="submit">Delete</button>
+      </form>
+    {% endif %}
+  </div>
+</div>
+
+
+<!-- Section 2: The current user's reviews -->
+<div style="border: 1px solid #000; margin: 10px; padding: 10px;">
+  <h2>My Reviews:</h2>
+  {% for review in my_reviews %}
+    <!-- Display review details -->
+    <div style="border: 1px solid #333; margin: 10px 0; padding: 10px;">
+      <a href="{% url 'view_review' review.id %}">
+        <h3>{{ review.headline }}</h3>
+        <p>{{ review.body }}</p>
+        <p>Rating: {{ review.rating }}</p>
+        <p>Author: {{ review.user.username }}</p>
+        <p>Created on: {{ review.time_created }}</p>
+      </a>
+    </div>
+  {% empty %}
+    <p>You have not posted any reviews for this ticket yet.</p>
+  {% endfor %}
+</div>
+
+<!-- Section 3: Other users' reviews -->
+<div style="border: 1px solid #000; margin: 10px; padding: 10px;">
+  <!-- Display related reviews -->
+  <h2>Other Reviews:</h2>
+  {% for review in other_reviews %}
+    <div style="border: 1px solid #333; margin: 10px 0; padding: 10px;">
+      <a href="{% url 'view_review' review.id %}">
+        <h3>{{ review.headline }}</h3>
+        <p>{{ review.body }}</p>
+        <p>Rating: {{ review.rating }}</p>
+        <p>Author: {{ review.user.username }}</p>
+        <p>Created on: {{ review.time_created }}</p>
+      </a>
+    </div>
+  {% empty %}
+    <p>No other reviews yet.</p>
+  {% endfor %}
+
+</div>
 {% endblock %}

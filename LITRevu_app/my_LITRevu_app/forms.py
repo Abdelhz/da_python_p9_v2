@@ -19,7 +19,7 @@ class TicketForm(forms.ModelForm):
 class ReviewForm(forms.ModelForm):
     class Meta:
         model = Review
-        fields = ['ticket', 'rating', 'headline', 'body']
+        fields = ['rating', 'headline', 'body']
         widgets = {
             'body': forms.Textarea(attrs={'cols': 80, 'rows': 20}),
             'rating': forms.NumberInput(attrs={'min': 0, 'max': 5}),

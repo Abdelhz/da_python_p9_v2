@@ -4,14 +4,17 @@ from django.db import models
 
 
 class Ticket(models.Model):
-    title = models.CharField(max_length=128)
+    title = models.CharField(max_length=128, unique=True)
     #author = models.CharField(max_length=255)
     description = models.TextField(max_length=2048, blank=True)
     #cover = models.ImageField(upload_to='covers/', blank=True, null=True)
     user = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     image = models.ImageField(blank=True, null=True)
     time_created = models.DateTimeField(auto_now_add=True)
-    pass
+    
+    def __str__(self):
+        return self.title
+
 
 
 class Review(models.Model):
@@ -27,7 +30,6 @@ class Review(models.Model):
 
 
 class UserFollows(models.Model):
-    # Your UserFollows model definition goes here
     user = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='following')
     followed_user = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='followed_by')
 
@@ -35,5 +37,19 @@ class UserFollows(models.Model):
         # ensures we don't get multiple UserFollows instances
         # for unique user-user_followed pairs
         unique_together = ('user', 'followed_user', )
+    
+    def clean(self):
+        if self.user == self.followed_user:
+            raise ValidationError("You cannot follow yourself.")
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        return super(UserFollows, self).save(*args, **kwargs)
 
 
+class UserBlock(models.Model):
+    user_blocking = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='blocking')
+    user_blocked = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='blocked_by')
+
+    class Meta:
+        unique_together = ('user_blocking', 'user_blocked')

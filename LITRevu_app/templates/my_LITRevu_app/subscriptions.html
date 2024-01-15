@@ -2,18 +2,61 @@
 {% block title %}Subscriptions{% endblock %}
 
 {% block content %}
-  <h1>Following</h1>
-  <ul>
-    {% for user in following_list %}
-      <div>
-        {{ user.username }}
-        <form action="{% url 'unfollow_user' user.id %}" method="post">
-          {% csrf_token %}
-          <button type="submit">Unfollow</button>
-        </form>
-      </div>
-    {% endfor %}
-  </ul>
+  <h1>Subscriptions</h1>
+  <!-- Search bar -->
+  <div style="text-align: center;">
+    <form action="{% url 'search_user' %}" method="get">
+      <input type="text" name="username" placeholder="Search for users">
+      <button type="submit">Go</button>
+    </form>
+  </div>
+  
+  
+  <!-- List of followed users -->
+  <div style="border: 1px solid black; margin-top: 20px; padding: 10px;">
+    <h1>Followed users</h1>
+    <div style="margin-top: 20px; padding: 10px; border: 1px solid #000; background-color: #f0f0f0;">
+      <ul>
+        {% for user in following_list %}
+          <div>
+            {{ user.username }}
+            <form action="{% url 'unfollow_user' user.id %}" method="post">
+              {% csrf_token %}
+              <input type="hidden" name="source_page" value="{{ request.path }}">
+              <button type="submit">Unfollow</button>
+            </form>
+            <form action="{% url 'block_user' user.id %}" method="post">
+              {% csrf_token %}
+              <input type="hidden" name="username" value="{{ request.GET.username }}">
+              <input type="hidden" name="source_page" value="{{ request.path }}">
+              <button type="submit">Block</button>
+            </form>
+          </div>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+  <!-- List of blocked users -->
+  <div style="border: 1px solid black; margin-top: 20px; padding: 10px;">
+    <h1>Blocked users</h1>
+    <div style="margin-top: 20px; padding: 10px; border: 1px solid #000; background-color: #f0f0f0;">
+      <ul>
+        {% for blocked_user in blocked_list %}
+          <div>
+            {{ blocked_user.username }}
+            <form action="{% url 'unblock_user' blocked_user.id %}" method="post">
+              {% csrf_token %}
+              <input type="hidden" name="source_page" value="{{ request.path }}">
+              <button type="submit">Unblock</button>
+            </form>
+          </div>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+
 {% endblock %}
 
 
