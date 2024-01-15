@@ -26,12 +26,14 @@ LITRevu_app/
 ├── templates/        # organizes HTML templates here
 │   ├── registration/ 
 │   │   ├── login.html   # Template for the login page
+│   │   ├── profile.html # Template for the profile page
 │   │   └── register.html  # Template for user signups
 │   ├── my_LITRevu_app/
 │       │
 │       ├── feed.html  # Template for feed display
 │       ├── posts.html  # Template for posts display
 │       ├── subscriptions.html  # Template for UserFollows display
+│       ├── search_results.html # Template for user search result
 │       │
 │       ├── reviews/
 │           ├── add_review_to_ticket.html # Template for adding a review to a ticket
