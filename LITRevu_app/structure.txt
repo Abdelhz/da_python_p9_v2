@@ -7,23 +7,23 @@ LITRevu_app/
 │   ├── __pycache__/
 │   ├── __init__.py
 │   ├── asgi.py
-│   ├── settings.py   # Ensure 'AUTH_USER_MODEL' is set correctly here, if using a custom model
-│   ├── urls.py       # Include authentication views (e.g., login, logout) here
+│   ├── settings.py   # Ensure 'AUTH_USER_MODEL' using builtin user model
+│   ├── urls.py       # Include admin url
 │   └── wsgi.py
 │
-├── my_LITRevu_app/            # This is the app containing your models and related functionality
+├── my_LITRevu_app/            # Folder for my application
 │   ├── __pycache__/
 │   ├── migrations/
 │   ├── __init__.py
-│   ├── forms.py
-│   ├── admin.py      # Register your models here for the Django admin
+│   ├── forms.py      # Ticket, Review and Login forms here
+│   ├── admin.py      # models Registered for the Django admin
 │   ├── apps.py
-│   ├── models.py     # Your models (Ticket, Review, UserFollows) are defined here
+│   ├── models.py     # Your models (Ticket, Review, UserFollows, UserBlock) are defined here
 │   ├── tests.py
-│   ├── views.py      # Views for your app functionality
-│   └── urls.py       # URLs for your app functionality
+│   ├── views.py      # Views for app functionality
+│   └── urls.py       # URLs for app functionality
 │
-├── templates/        # organizes HTML templates here
+├── templates/        # HTML templates
 │   ├── registration/ 
 │   │   ├── login.html   # Template for the login page
 │   │   ├── profile.html # Template for the profile page
@@ -40,22 +40,21 @@ LITRevu_app/
 │           ├── add_review.html # Template for adding a review
 │           ├── review_edit.html # Template for editing a review
             ├── view_review.html # Template for displaying a review
-            └── review_snippet.html
+            └── review_snippet.html # Template for the review snippet
 │       │
 │       └── tickets/
 │           ├── add_ticket.html # Template for adding a ticket
 │           ├── ticket_edit.html # Template for editing a ticket
             ├── view_ticket.html # Template for displaying a ticket
-            └── ticket_snippet.html
+            └── ticket_snippet.html # Template for the ticket snippet
     │
-│   └── base_generic.html        # A base template, if you're using one
+│   └── base_generic.html        # A base template
 │
 ├── static/           # Static files such as CSS and JS
 │   ├── css/
-│   │   ├── styles.css  # General styles for your site
+│   │   ├── styles.css  # General styles in css
 │   │   └── ...
 │   ├── js/
-│   │   ├── scripts.js  # General JavaScript for your site
 │   │   └── ...
 │   └── ...
 │
