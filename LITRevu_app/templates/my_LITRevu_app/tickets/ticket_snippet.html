@@ -1,11 +1,11 @@
 <div class="ticket">
     <h2 class="ticket-title">{{ ticket.title }}</h2>
-    <p>Created by: {{ ticket.user.username }}</p>
-    <p>Time created: {{ ticket.time_created }}</p>
-    <p>{{ ticket.description }}</p>
+    <p>Description : {{ ticket.description }}</p>
     {% if ticket.image %}
         <div style="width: 15%; height: 15%; overflow: hidden;">
-            <img src="{{ ticket.image.url }}" alt="{{ ticket.title }}" style="max-width: 100%;">
+            <img src="{{ ticket.image.url }}" alt="This is the cover or the image representing the {{ ticket.title }} item" style="max-width: 100%;">
         </div>
     {% endif %}
+    <p>Created by : {{ ticket.user.username }}</p>
+    <p>Time created : {{ ticket.time_created }}</p>
 </div>

@@ -1,20 +1,21 @@
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.exceptions import ValidationError
 from django.conf import settings
 from django.db import models
 
 
 class Ticket(models.Model):
     title = models.CharField(max_length=128, unique=True)
-    #author = models.CharField(max_length=255)
+    # author = models.CharField(max_length=255)
     description = models.TextField(max_length=2048, blank=True)
-    #cover = models.ImageField(upload_to='covers/', blank=True, null=True)
-    user = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    # cover = models.ImageField(upload_to='covers/', blank=True, null=True)
+    user = models.ForeignKey(
+        to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     image = models.ImageField(blank=True, null=True)
     time_created = models.DateTimeField(auto_now_add=True)
-    
+
     def __str__(self):
         return self.title
-
 
 
 class Review(models.Model):
@@ -30,14 +31,18 @@ class Review(models.Model):
 
 
 class UserFollows(models.Model):
-    user = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='following')
-    followed_user = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='followed_by')
+    user = models.ForeignKey(
+        to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
+        related_name='following')
+    followed_user = models.ForeignKey(
+        to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
+        related_name='followed_by')
 
     class Meta:
         # ensures we don't get multiple UserFollows instances
         # for unique user-user_followed pairs
         unique_together = ('user', 'followed_user', )
-    
+
     def clean(self):
         if self.user == self.followed_user:
             raise ValidationError("You cannot follow yourself.")
@@ -48,8 +53,12 @@ class UserFollows(models.Model):
 
 
 class UserBlock(models.Model):
-    user_blocking = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='blocking')
-    user_blocked = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='blocked_by')
+    user_blocking = models.ForeignKey(
+        to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
+        related_name='blocking')
+    user_blocked = models.ForeignKey(
+        to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
+        related_name='blocked_by')
 
     class Meta:
         unique_together = ('user_blocking', 'user_blocked')

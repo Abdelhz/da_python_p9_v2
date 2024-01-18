@@ -1,5 +1,8 @@
 body {
     font-family: Arial, sans-serif;
+    color: #333; /* Ensure sufficient color contrast */
+    background-color: #fff; /* Ensure sufficient color contrast */
+    font-size: 1em; /* Use relative units for font sizes */
 }
 
 header {

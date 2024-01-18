@@ -12,7 +12,7 @@
 <body>
     <header>
         <div class="header-left">
-            <h1>{% block page_title %}{% endblock %}</h1>
+            <h1>{% block page_title %}LitReview{% endblock %}</h1>
         </div>
         <div class="header-right">
             {% if user.is_authenticated %}
@@ -25,7 +25,7 @@
         </div>
     </header>
 
-    <nav class="tabs">
+    <nav class="tabs" role="navigation" aria-label="Main">
         <ul>
             <li><a href="{% url 'feed' %}">Feed</a></li>
             <li><a href="{% url 'posts' %}">Posts</a></li>
@@ -34,13 +34,13 @@
         </ul>
     </nav>
 
-    <main>
+    <main role="main">
         {% block content %}
         <!-- Main content goes here -->
         {% endblock content %}
     </main>
 
-    <footer>
+    <footer role="contentinfo">
         <!-- Footer content -->
     </footer>
 </body>

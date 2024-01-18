@@ -1,3 +1,5 @@
 my_django_env/
+.idea/
 da_python_p9_v2.code-workspace
 questions.md
+.flake8

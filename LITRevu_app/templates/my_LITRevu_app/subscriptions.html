@@ -6,8 +6,9 @@
   <!-- Search bar -->
   <div style="text-align: center;">
     <form action="{% url 'search_user' %}" method="get">
-      <input type="text" name="username" placeholder="Search for users">
-      <button type="submit">Go</button>
+      <label for="username">Search for users:</label>
+      <input type="text" name="username" placeholder="Enter username">
+      <button type="submit">Search</button>
     </form>
   </div>
   

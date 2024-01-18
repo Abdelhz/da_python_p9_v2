@@ -1,7 +1,7 @@
 from django import forms
 from .models import Ticket, Review
-from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import UserCreationForm
+
+
 class TicketForm(forms.ModelForm):
     class Meta:
         model = Ticket
@@ -15,6 +15,7 @@ class TicketForm(forms.ModelForm):
         labels = {
             'image': 'Upload a cover image (optional)',
         }
+
 
 class ReviewForm(forms.ModelForm):
     class Meta:
@@ -35,4 +36,5 @@ class ReviewForm(forms.ModelForm):
 
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=63, label="Nom d'utilisateur")
-    password = forms.CharField(max_length=63, label="Mot de passe" ,widget=forms.PasswordInput)
+    password = forms.CharField(max_length=63, label="Mot de passe",
+                               widget=forms.PasswordInput)

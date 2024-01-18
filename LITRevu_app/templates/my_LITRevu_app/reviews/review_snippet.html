@@ -1,8 +1,8 @@
 <div class="review">
     <h2 class="review-headline">{{ review.headline }}</h2>
     <p>Review for: <a href="{% url 'view_ticket' review.ticket.id %}">{{ review.ticket.title }}</a></p>
-    <p>Reviewed by: {{ review.user.username }}</p>
-    <p>Time created: {{ review.time_created }}</p>
-    <p>Rating: {{ review.rating }}</p>
+    <p>Reviewed by : {{ review.user.username }}</p>
+    <p>Rating : {{ review.rating }}</p>
     <p> Review : {{ review.body }}</p>
+    <p>Time created : {{ review.time_created }}</p>
 </div>

@@ -8,16 +8,7 @@
   
   <h1>View Ticket</h1>
   <div style="border: 1px solid #333; margin: 10px 0; padding: 10px;">
-    <h2>Title: {{ ticket.title }}</h2>
-    <p>Description: {{ ticket.description }}</p>
-    {% if ticket.image %}
-      <div style="width: 15%; height: 15%; overflow: hidden;">
-        <img src="{{ ticket.image.url }}" alt="{{ ticket.title }}" style="max-width: 100%;">
-      </div>
-    {% endif %}
-    <p>Author: {{ ticket.user.username }}</p>
-    <p>Created on: {{ ticket.time_created }}</p>
-    <!-- Add other details as needed -->
+    {% include 'my_LITRevu_app/tickets/ticket_snippet.html' %}
     
     {% if user.is_authenticated and user == ticket.user %}
       <!-- Add an edit button if the authenticated user is the author of the ticket -->
@@ -41,11 +32,7 @@
     <!-- Display review details -->
     <div style="border: 1px solid #333; margin: 10px 0; padding: 10px;">
       <a href="{% url 'view_review' review.id %}">
-        <h3>{{ review.headline }}</h3>
-        <p>{{ review.body }}</p>
-        <p>Rating: {{ review.rating }}</p>
-        <p>Author: {{ review.user.username }}</p>
-        <p>Created on: {{ review.time_created }}</p>
+        {% include 'my_LITRevu_app/reviews/review_snippet.html' %}
       </a>
     </div>
   {% empty %}
@@ -60,11 +47,7 @@
   {% for review in other_reviews %}
     <div style="border: 1px solid #333; margin: 10px 0; padding: 10px;">
       <a href="{% url 'view_review' review.id %}">
-        <h3>{{ review.headline }}</h3>
-        <p>{{ review.body }}</p>
-        <p>Rating: {{ review.rating }}</p>
-        <p>Author: {{ review.user.username }}</p>
-        <p>Created on: {{ review.time_created }}</p>
+        {% include 'my_LITRevu_app/reviews/review_snippet.html' %}
       </a>
     </div>
   {% empty %}
