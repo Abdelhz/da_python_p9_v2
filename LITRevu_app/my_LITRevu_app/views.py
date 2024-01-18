@@ -164,7 +164,7 @@ def posts(request):
 def add_ticket(request):
     if request.method == 'POST':
         # You need to define a form for adding tickets
-        form = TicketForm(request.POST)
+        form = TicketForm(request.POST, request.FILES)
         if form.is_valid():
             try:
                 ticket = form.save(commit=False)

@@ -1,4 +1,102 @@
-# LITRevu_app
+# LITRevu_app Readme.md
+
+
+# Français :
+
+
+Il s'agit d'une application Django permettant aux utilisateurs de créer des billets et des avis.
+
+## Configuration
+
+1. Créez un dossier de projet nommé "project_9_django" :
+    ```bash
+    mkdir project_9_django
+    ```
+
+2. Accédez au dossier :
+    ```bash
+    cd project_9_django
+    ```
+
+3. Clonez le projet depuis GitHub dans ce dossier :
+    ```bash
+    git clone https://github.com/Abdelhz/da_python_p9_v2.git
+    ```
+
+4. Accédez au répertoire du projet cloné :
+    ```bash
+    cd da_python_p9_v2
+    ```
+
+5. Créez un environnement virtuel :
+    ```bash
+    python3 -m venv env
+    ```
+
+6. Activez l'environnement virtuel :
+    - Sur Windows :
+        ```bash
+        cd env/Scripts/
+        ```
+        ```bash
+        source activate
+        ```
+        ```bash
+        cd ../../
+        ```
+
+    - Sur Unix ou MacOS :
+        ```bash
+        source env/bin/activate
+        ```
+
+
+7. Installez les dépendances depuis le fichier `requirements.txt` :
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+8. Accédez au répertoire où se trouve `manage.py` :
+    ```bash
+    cd da_python_p9_v2/LITRevu_app
+    ```
+
+9. Lancez le projet Django :
+    ```bash
+    python manage.py runserver
+    ```
+10. Lancez le projet Django :
+    Accédez à l'application en utilisant l'URL suivante : 
+[http://127.0.0.1:8000/login/](http://127.0.0.1:8000/login/)  
+  
+## Structure de l'Application
+
+L'application se compose d'un projet principal Django (`LITRevu_app`) et d'une application à l'intérieur de ce projet (`my_LITRevu_app`).
+Le répertoire `my_LITRevu_app` contient des modèles, des vues et des formulaires, ainsi que d'autres fichiers Django standard tels que `admin.py` et `apps.py`. Le répertoire `templates` contient des templates HTML, organisés par fonctionnalité. Le répertoire `static` contient des fichiers statiques tels que des fichiers CSS et JavaScript.
+
+## Modèles
+
+L'application comprend les modèles suivants :
+
+- `Ticket` : Représente un ticket. Chaque ticket a un titre unique, une description, un utilisateur associé, une image facultative et une horodatage indiquant quand il a été créé.
+- `Review` : Représente un avis. Chaque avis est associé à un ticket et à un utilisateur, a une note entre 0 et 5, un titre, un corps facultatif et un horodatage indiquant quand il a été créé.
+- `UserFollows` : Représente la relation entre les utilisateurs en termes de suivi. Chaque instance de `UserFollows` indique qu'un utilisateur suit un autre utilisateur.
+- `UserBlock` : Représente la relation entre les utilisateurs en termes de blocage. Chaque instance de `UserBlock` indique qu'un utilisateur a bloqué un autre utilisateur.
+
+## Vues
+
+L'application comprend les vues suivantes :
+
+- `view_review` : Une vue pour afficher un avis spécifique. Elle nécessite que l'utilisateur soit connecté.
+- `add_review_to_ticket` : Une vue pour ajouter un avis à un ticket spécifique. Elle nécessite que l'utilisateur soit connecté.
+- `delete_review` : Une vue pour supprimer un avis spécifique. Elle nécessite que l'utilisateur soit connecté et soit l'auteur de l'avis.
+- `EditTicketView` : Une vue basée sur une classe pour modifier un ticket spécifique. Elle nécessite que l'utilisateur soit connecté.
+- `EditReviewView` : Une vue basée sur une classe pour modifier un avis spécifique. Elle nécessite que l'utilisateur soit connecté.
+- `subscriptions` : Une vue pour afficher les utilisateurs que l'utilisateur actuel suit et les utilisateurs que l'utilisateur actuel a bloqués. Elle nécessite que l'utilisateur soit connecté.
+- `search_user` : Une vue pour rechercher des utilisateurs par leur nom d'utilisateur. Elle nécessite que l'utilisateur soit connecté.
+- `follow_user` : Une vue pour suivre un utilisateur spécifique. Elle nécessite que l'utilisateur soit connecté.  
+
+# English
 
 This is a Django application that allows users to create tickets and reviews.
 
@@ -59,6 +157,10 @@ This is a Django application that allows users to create tickets and reviews.
     ```bash
     python manage.py runserver
     ```
+
+10. Access the application using the following URL :
+[http://127.0.0.1:8000/login/](http://127.0.0.1:8000/login/)
+
 
 ## Application Structure
 
