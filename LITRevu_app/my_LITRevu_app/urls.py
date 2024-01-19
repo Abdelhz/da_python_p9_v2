@@ -59,6 +59,12 @@ urlpatterns = [
     path('feed/', views.feed, name='feed'),
     path('subscriptions/', views.subscriptions, name='subscriptions'),
     path('search_user/', views.search_user, name='search_user'),
-    # Other URLs for your app can be added here as needed
+
+
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+# Serving static files if DEBUG is set to False
+if settings.DEBUG is False:
+    urlpatterns += static(settings.STATIC_URL,
+                          document_root=settings.STATIC_ROOT)
