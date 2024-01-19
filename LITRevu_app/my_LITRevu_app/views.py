@@ -308,7 +308,6 @@ class EditTicketView(UpdateView):
 @method_decorator(login_required, name='dispatch')
 class EditReviewView(UpdateView):
     model = Review
-
     # list all the fields that you want to be editable
     fields = ['headline', 'body', 'rating']
     template_name = 'my_LITRevu_app/reviews/edit_review.html'
